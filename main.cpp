@@ -96,6 +96,46 @@ void DrawRocket(window& w, color c, int rx, int ry, int size)
 
 
 
+void DrawWatch(window& w, color c, int rx, int ry, int size) {
+
+	w.SetBrush(c);
+	w.SetPen(BLACK, 5);
+	w.DrawCircle(rx, ry, size);
+
+	w.SetPen(DARKBLUE, 3);
+	for (int i = 0; i < 12; i++) {
+		double angle = i * (2 * 3.14 / 12);
+		int x1 = rx + (size * 0.8 * cos(angle));
+		int y1 = ry + (size * 0.8 * sin(angle));
+		int x2 = rx + (size * cos(angle));
+		int y2 = ry + (size * sin(angle));
+		w.DrawLine(x1, y1, x2, y2);
+	}
+
+
+	//randum direction 
+	double hour_a = rand() % 360;
+	double min_a = rand() % 360;
+
+	//radians
+	hour_a = hour_a * 3.14 / 180.0;
+	min_a = min_a * 3.14 / 180.0;
+
+	// end points
+	int rx_h_end = rx + (0.6 * size * cos(hour_a));
+	int ry_h_end = ry + (0.6 * size * sin(hour_a));
+	int rx_m_end = rx + (0.8 * size * cos(min_a));
+	int ry_m_end = ry + (0.8 * size * sin(min_a));
+
+	w.SetPen(DARKRED, 2);
+	w.DrawLine(rx, ry, rx_h_end, ry_h_end); // Hour hand
+	w.DrawLine(rx, ry, rx_m_end, ry_m_end); // Minute hand
+
+
+}
+
+
+
 
 int main() {
 	int hight, width, sh, sw;
@@ -118,6 +158,7 @@ int main() {
 	w.SetFont(15, BOLD, BY_NAME, "Arial");
 	w.DrawString(15 + 170, w.GetHeight() - 40, "press (i) to draw ice cream ||");
 	w.DrawString(15 + 380, w.GetHeight() - 40, "press (r) to draw rocket ||");
+	w.DrawString(15 + 570, w.GetHeight() - 40, "press (w) to draw watch ||");
 	w.DrawString(15 + 1100, w.GetHeight() - 40, "press (q) to clear Screen ||");
 
 
@@ -148,6 +189,7 @@ int main() {
 			w.SetFont(15, BOLD, BY_NAME, "Arial");
 			w.DrawString(15 + 170, w.GetHeight() - 40, "press (i) to draw ice cream ||");
 			w.DrawString(15 + 380, w.GetHeight() - 40, "press (r) to draw rocket ||");
+			w.DrawString(15 + 570, w.GetHeight() - 40, "press (w) to draw watch ||");
 			w.DrawString(15 + 1100, w.GetHeight() - 40, "press (q) to clear Screen ||");
 
 		}
@@ -163,7 +205,14 @@ int main() {
 			w.FlushMouseQueue();
 			DrawRocket(w, RED, rx, ry, size);
 		}
-		
+		else if (key == 'w' || key == 'W')
+		{
+			w.FlushKeyQueue();
+			w.FlushMouseQueue();
+
+			DrawWatch(w, KHAKI, rx, ry, size);
+
+		}
 	} while (key != 'e');
 
 	return 0;
