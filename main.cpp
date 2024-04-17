@@ -6,43 +6,6 @@
 
 
 
-
-void DrawIceCream(window& w, color c, int rx, int ry, int size)
-{
-
-	int ConeWidth = size;
-	int ConeHeight = 2 * size;
-	int radius = size / 2;
-
-	int icecreamheight = ConeHeight + radius;
-	int icecreamwidth = ConeWidth;
-	int minX = icecreamwidth;
-	int maxX = w.GetWidth() - icecreamwidth;
-	int minY = icecreamheight;
-	int maxY = w.GetHeight() - icecreamheight;
-
-	rx = max(min(rx, maxX), minX);
-	ry = max(min(ry, maxY), minY);
-
-	w.SetPen(ROSYBROWN, 5);
-	w.SetBrush(BEIGE);
-	w.DrawCircle(rx, ry - ConeHeight, radius, FILLED);
-
-	w.SetPen(ROSYBROWN, 5);
-	w.SetBrush(BROWN);
-	int XaxisLeftPoint = rx - (ConeWidth / 2);
-	int XaxisRightPoint = rx + (ConeWidth / 2);
-	int YaxisLeft_RightPoint = ry - ConeHeight;
-	w.DrawTriangle(XaxisLeftPoint, YaxisLeft_RightPoint, rx, ry, XaxisRightPoint, YaxisLeft_RightPoint);
-
-
-
-}
-
-
-
-
-
 void DrawRocket(window& w, color c, int rx, int ry, int size)
 {
 	int windowWidth = w.GetWidth();
@@ -93,8 +56,37 @@ void DrawRocket(window& w, color c, int rx, int ry, int size)
 }
 
 
+void DrawIceCream(window& w, color c, int rx, int ry, int size)
+{
+
+	int ConeWidth = size;
+	int ConeHeight = 2 * size;
+	int radius = size / 2;
+
+	int icecreamheight = ConeHeight + radius;
+	int icecreamwidth = ConeWidth;
+	int minX = icecreamwidth;
+	int maxX = w.GetWidth() - icecreamwidth;
+	int minY = icecreamheight;
+	int maxY = w.GetHeight() - icecreamheight;
+
+	rx = max(min(rx, maxX), minX);
+	ry = max(min(ry, maxY), minY);
+
+	w.SetPen(ROSYBROWN, 5);
+	w.SetBrush(BEIGE);
+	w.DrawCircle(rx, ry - ConeHeight, radius, FILLED);
+
+	w.SetPen(ROSYBROWN, 5);
+	w.SetBrush(BROWN);
+	int XaxisLeftPoint = rx - (ConeWidth / 2);
+	int XaxisRightPoint = rx + (ConeWidth / 2);
+	int YaxisLeft_RightPoint = ry - ConeHeight;
+	w.DrawTriangle(XaxisLeftPoint, YaxisLeft_RightPoint, rx, ry, XaxisRightPoint, YaxisLeft_RightPoint);
 
 
+
+}
 
 void DrawWatch(window& w, color c, int rx, int ry, int size) {
 
@@ -135,6 +127,23 @@ void DrawWatch(window& w, color c, int rx, int ry, int size) {
 }
 
 
+void drawHome(window& w, color c, int rx, int ry, int size) {
+	w.SetPen(BLACK, 2);
+
+	w.SetBrush(c);
+	w.DrawRectangle(rx, ry, rx + 1.5 * size, ry + size);
+
+	w.SetBrush(HUGE);
+	w.DrawTriangle(rx, ry, 1.5 * size + rx, ry, rx + 1.5 * size / 2, ry - size);
+
+	w.SetBrush(STEELBLUE);
+	w.DrawRectangle(rx + (size * .95), ry + (size * 0.15), rx + (1.5 * size * .9), ry + (size * .5));
+
+	w.SetBrush(BROWN);
+	w.DrawRectangle(rx + (size * .2), ry + (size * 0.42), rx + (size * .5), ry + (size));
+
+	w.DrawLine(rx + (size * .42), ry + (size * .75), rx + (size * .43), ry + (size * .76));
+}
 
 
 int main() {
@@ -156,6 +165,7 @@ int main() {
 
 	w.SetPen(BLACK, 70);
 	w.SetFont(15, BOLD, BY_NAME, "Arial");
+	w.DrawString(15, w.GetHeight() - 40, "press (h) to draw home ||");
 	w.DrawString(15 + 170, w.GetHeight() - 40, "press (i) to draw ice cream ||");
 	w.DrawString(15 + 380, w.GetHeight() - 40, "press (r) to draw rocket ||");
 	w.DrawString(15 + 570, w.GetHeight() - 40, "press (w) to draw watch ||");
@@ -187,6 +197,7 @@ int main() {
 
 			w.SetPen(BLACK, 70);
 			w.SetFont(15, BOLD, BY_NAME, "Arial");
+			w.DrawString(15, w.GetHeight() - 40, "press (h) to draw home ||");
 			w.DrawString(15 + 170, w.GetHeight() - 40, "press (i) to draw ice cream ||");
 			w.DrawString(15 + 380, w.GetHeight() - 40, "press (r) to draw rocket ||");
 			w.DrawString(15 + 570, w.GetHeight() - 40, "press (w) to draw watch ||");
@@ -212,6 +223,13 @@ int main() {
 
 			DrawWatch(w, KHAKI, rx, ry, size);
 
+		}
+		else if (key == 'h' || key == 'H')
+		{
+			w.FlushKeyQueue();
+			w.FlushMouseQueue();
+
+			drawHome(w, KHAKI, rx, ry, size);
 		}
 	} while (key != 'e');
 
